@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import favicon from "../images/favicon.svg";
+import Theme from "./theme";
 
 const Header = () => {
 	const [rotate, setRotate] = useState(true);
@@ -27,7 +28,9 @@ const Header = () => {
 					</div>
 				</div>
 			</div>
-			<div className="header-right"></div>
+			<div className="header-right">
+				<Theme />
+			</div>
 		</header>
 	);
 };
