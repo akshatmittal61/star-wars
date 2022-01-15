@@ -39,54 +39,57 @@ const Home = () => {
 		}
 		axiosInstance(callStr).then((res) => {
 			let newPeople = [...res.data.results];
-			res.data.results.map((a, index) => {
-				axios(a.homeworld).then((res) => {
-					newPeople[index].homeworld = res.data.name;
-					setTimeout(() => {
-						setAllPeople([...newPeople]);
-					}, 2);
-				});
-			});
-			res.data.results.map((a, index) => {
-				a.films.map((b, id) => {
-					axios(b).then((res) => {
-						newPeople[index].films[id] = res.data.title;
+			if (res.data.count === 0) setAllPeople([]);
+			else {
+				res.data.results.map((a, index) => {
+					axios(a.homeworld).then((res) => {
+						newPeople[index].homeworld = res.data.name;
 						setTimeout(() => {
 							setAllPeople([...newPeople]);
-						}, a.films.length * 10);
+						}, 2);
 					});
 				});
-			});
-			res.data.results.map((a, index) => {
-				a.species.map((b, id) => {
-					axios(b).then((res) => {
-						newPeople[index].species[id] = res.data.name;
-						setTimeout(() => {
-							setAllPeople([...newPeople]);
-						}, a.species.length * 10);
+				res.data.results.map((a, index) => {
+					a.films.map((b, id) => {
+						axios(b).then((res) => {
+							newPeople[index].films[id] = res.data.title;
+							setTimeout(() => {
+								setAllPeople([...newPeople]);
+							}, a.films.length * 10);
+						});
 					});
 				});
-			});
-			res.data.results.map((a, index) => {
-				a.vehicles.map((b, id) => {
-					axios(b).then((res) => {
-						newPeople[index].vehicles[id] = res.data.name;
-						setTimeout(() => {
-							setAllPeople([...newPeople]);
-						}, a.vehicles.length * 10);
+				res.data.results.map((a, index) => {
+					a.species.map((b, id) => {
+						axios(b).then((res) => {
+							newPeople[index].species[id] = res.data.name;
+							setTimeout(() => {
+								setAllPeople([...newPeople]);
+							}, a.species.length * 10);
+						});
 					});
 				});
-			});
-			res.data.results.map((a, index) => {
-				a.starships.map((b, id) => {
-					axios(b).then((res) => {
-						newPeople[index].starships[id] = res.data.name;
-						setTimeout(() => {
-							setAllPeople([...newPeople]);
-						}, a.starships.length * 10);
+				res.data.results.map((a, index) => {
+					a.vehicles.map((b, id) => {
+						axios(b).then((res) => {
+							newPeople[index].vehicles[id] = res.data.name;
+							setTimeout(() => {
+								setAllPeople([...newPeople]);
+							}, a.vehicles.length * 10);
+						});
 					});
 				});
-			});
+				res.data.results.map((a, index) => {
+					a.starships.map((b, id) => {
+						axios(b).then((res) => {
+							newPeople[index].starships[id] = res.data.name;
+							setTimeout(() => {
+								setAllPeople([...newPeople]);
+							}, a.starships.length * 10);
+						});
+					});
+				});
+			}
 			setIsLoading(false);
 		});
 	}, [pageNo, searchStr]);
@@ -165,54 +168,72 @@ const Home = () => {
 							<th>Vehicles</th>
 							<th>Starships</th>
 						</tr>
-						{allPeople.map((people, index) => (
-							<tr key={index}>
-								<td>{(pageNo - 1) * 10 + (index + 1)}</td>
-								<td>{people.name}</td>
-								<td>{people.height}</td>
-								<td>{people.mass}</td>
-								<td>{people.hair_color}</td>
-								<td>{people.skin_color}</td>
-								<td>{people.eye_color}</td>
-								<td>{people.birth_year}</td>
-								<td>{people.gender}</td>
-								<td>{people.homeworld}</td>
-								<td>
-									{people.films.map((film, index) => (
-										<div key={index}>{film}</div>
-									))}
-								</td>
-								<td>
-									{people.species.map((specie, index) => (
-										<div
-											key={index}
-											style={{
-												display: "flex",
-												flexFlow: "column",
-											}}
-										>
-											{specie}
-											{getIcon(specie)}
-										</div>
-									))}
-								</td>
-								<td>
-									{people.vehicles.map((vehicle, index) => (
-										<div key={index}>{vehicle}</div>
-									))}
-								</td>
-								<td>
-									{people.starships.map((starship, index) => (
-										<div key={index}>{starship}</div>
-									))}
+						{allPeople.length === 0 ? (
+							<tr>
+								<td
+									colSpan="14"
+									className="home-data-null"
+								>
+									<i className="fas fa-engine-warning"></i>
+                                    <div>No data Found</div>
 								</td>
 							</tr>
-						))}
+						) : (
+							allPeople.map((people, index) => (
+								<tr key={index}>
+									<td>{(pageNo - 1) * 10 + (index + 1)}</td>
+									<td>{people.name}</td>
+									<td>{people.height}</td>
+									<td>{people.mass}</td>
+									<td>{people.hair_color}</td>
+									<td>{people.skin_color}</td>
+									<td>{people.eye_color}</td>
+									<td>{people.birth_year}</td>
+									<td>{people.gender}</td>
+									<td>{people.homeworld}</td>
+									<td>
+										{people.films.map((film, index) => (
+											<div key={index}>{film}</div>
+										))}
+									</td>
+									<td>
+										{people.species.map((specie, index) => (
+											<div
+												key={index}
+												style={{
+													display: "flex",
+													flexFlow: "column",
+												}}
+											>
+												{specie}
+												{getIcon(specie)}
+											</div>
+										))}
+									</td>
+									<td>
+										{people.vehicles.map(
+											(vehicle, index) => (
+												<div key={index}>{vehicle}</div>
+											)
+										)}
+									</td>
+									<td>
+										{people.starships.map(
+											(starship, index) => (
+												<div key={index}>
+													{starship}
+												</div>
+											)
+										)}
+									</td>
+								</tr>
+							))
+						)}
 						{isLoading && (
 							<tr>
 								<td
 									colSpan="14"
-									className="home-data-null-spinner"
+									className="home-data-null home-data-null-spinner"
 								>
 									<i className="fas fa-spinner-third"></i>
 								</td>
