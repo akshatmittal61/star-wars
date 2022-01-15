@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cabin&family=Montserrat&family=Open+Sans&family=Roboto&family=Sacramento&family=Caveat&family=Architects+Daughter&family=Indie+Flower&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&family=Roboto&family=Titillium+Web&family=Warnes&family=Audiowide&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -241,7 +241,7 @@ html {
       font-size: 12px; } }
 
 body {
-  font-family: "Choco cooky", "Google Sans", Cabin, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: "Titillium Web", "Google Sans", Cabin, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 1rem;
   background-color: var(--bgcolor);
   color: var(--tcolor);
@@ -442,24 +442,20 @@ button {
   transition: all var(--transition-time) ease-in-out; }
 
 .header {
-  width: 100%;
+  width: 11vh;
   height: 11vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
-  border-bottom: 1px solid var(--back-shadow-light); }
+  position: absolute;
+  top: 0;
+  left: 0; }
   .header-left {
     height: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center; }
-    .header-left-burger {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 0.25rem; }
     .header-left-logo {
       height: 100%; }
       .header-left-logo-image {
@@ -467,11 +463,74 @@ button {
         height: 100%;
         display: flex;
         justify-content: center;
-        align-items: center; }
+        align-items: center;
+        margin: 0 0.5rem; }
         .header-left-logo-image__img {
           object-fit: cover;
           max-width: 90%;
           max-height: 90%; }
+  .header-mid {
+    font-size: 2.5rem;
+    line-height: 3rem;
+    font-family: "Audiowide", cursive;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.1rem; }
+
+.home {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-flow: column;
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: darken;
+  background-color: rgba(0, 0, 0, 0.25);
+  background-attachment: fixed; }
+  .home-hero {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-family: "Audiowide", sans-serif;
+    font-size: 15rem;
+    line-height: 15rem;
+    animation: heroText 10s linear; }
+    .home-hero span {
+      margin: 0.25rem 0.75rem;
+      transition: all 1s ease-in-out; }
+  .home-data {
+    width: 100%;
+    overflow-x: auto;
+    margin: 1rem 0; }
+    .home-data table {
+      width: 100%;
+      margin: 0 auto;
+      border: 2px solid var(--back-shadow); }
+      .home-data table tr:first-child {
+        font-size: 1.25rem;
+        line-height: 1.5rem; }
+      .home-data table tr th {
+        padding: 0.25rem;
+        background-color: var(--back-shadow);
+        border: 1px solid var(--back-shadow-light); }
+      .home-data table tr td {
+        width: fit-content;
+        padding: 0.25rem;
+        background-color: var(--back-shadow-light);
+        border: 1px solid var(--back-shadow-light); }
+        .home-data table tr td:first-child {
+          text-align: center; }
+
+@keyframes herotext {
+  0% {
+    font-size: 15rem;
+    line-height: 15rem; }
+  100% {
+    font-size: 5rem;
+    line-height: 5rem; } }
 
 ::-webkit-scrollbar {
   width: 8px;

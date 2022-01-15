@@ -4,7 +4,7 @@ import axios from "axios";
 const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
-	const [theme, setTheme] = useState(true);
+	const [theme, setTheme] = useState(false);
 	const axiosInstance = axios.create({
 		baseURL: "https://swapi.py4e.com/api/",
 	});
