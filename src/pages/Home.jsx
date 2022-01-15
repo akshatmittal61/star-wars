@@ -119,6 +119,15 @@ const Home = () => {
 		setSearchStr(e.target.value);
 		setPageNo(1);
 	};
+	const handleSort = () => {
+		let newPeople = [...allPeople];
+		newPeople.sort((a, b) => {
+			if (a.name < b.name) return -1;
+			else if (a.name === b.name) return 0;
+			else return 1;
+		});
+		setAllPeople(newPeople);
+	};
 	return (
 		<section className="home" style={{ backgroundImage: `url(${bg})` }}>
 			<Header />
@@ -137,6 +146,15 @@ const Home = () => {
 					/>
 				</div>
 				<div className="home-controls-page">
+					<div className="home-controls-sort">
+						<button
+							className="icon icon-sm"
+							title="Sort the results alphabatically"
+							onClick={handleSort}
+						>
+							<i className="fas fa-sort-alpha-down"></i>
+						</button>
+					</div>
 					<button
 						className="icon icon-sm"
 						onClick={() =>
@@ -149,7 +167,7 @@ const Home = () => {
 						}
 						disabled={pageNo <= 1}
 					>
-						<span className="material-icons">chevron_left</span>
+						<i className="fas fa-arrow-left"></i>
 					</button>
 					<span>
 						{pageNo} of {parseInt(totalPeople / 10) + 1}
@@ -168,7 +186,7 @@ const Home = () => {
 						}
 						disabled={totalPeople / 10 <= pageNo}
 					>
-						<span className="material-icons">chevron_right</span>
+						<i className="fas fa-arrow-right"></i>
 					</button>
 				</div>
 			</div>
