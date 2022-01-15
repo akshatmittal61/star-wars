@@ -7,18 +7,24 @@ import bg from "../images/1.jpg";
 const Home = () => {
 	const [font, setFont] = useState(15);
 	const [allPeople, setAllPeople] = useState([]);
-	const [pageNo, setpageNo] = useState(1);
+	const [pageNo, setPageNo] = useState(1);
 	const [isLoading, setIsLoading] = useState(true);
+	const [totalPeople, setTotalPeople] = useState(10);
 	const { axiosInstance } = useContext(GlobalContext);
 	useEffect(() => {
 		setFont(10);
+		axiosInstance(`people`).then((res) => setTotalPeople(res.data.count));
 		return () => {
 			console.log("Good");
 		};
 	}, []);
+	const getIcon = (str) => {
+		if (str === "Droid") return <i className="fab fa-android"></i>;
+		else if (str === "Human") return <i className="fas fa-circle"></i>;
+		else return <i className="fas fa-question"></i>;
+	};
 	useEffect(() => {
 		axiosInstance(`people/?page=${pageNo}`).then((res) => {
-			// setAllPeople(res.data.results);
 			let newPeople = [...res.data.results];
 			res.data.results.map((a, index) => {
 				axios(a.homeworld).then((res) => {
@@ -68,7 +74,6 @@ const Home = () => {
 					});
 				});
 			});
-			console.log(newPeople);
 			setTimeout(() => {
 				setIsLoading(false);
 			}, 1000);
@@ -81,9 +86,46 @@ const Home = () => {
 				<span style={{ fontSize: `${font}rem` }}>Star</span>
 				<span style={{ fontSize: `${font}rem` }}>Wars</span>
 			</div>
-            <div className="home-controls">
-                
-            </div>
+			<div className="home-controls">
+				<div className="home-controls-search">
+					<input />
+				</div>
+				<div className="home-controls-page">
+					<button
+						className="icon icon-sm"
+						onClick={() =>
+							setPageNo(pageNo === 1 ? pageNo : pageNo - 1)
+						}
+						title={
+							pageNo <= 1
+								? "No more going back"
+								: "Go to previous page"
+						}
+						disabled={pageNo <= 1}
+					>
+						<span className="material-icons">chevron_left</span>
+					</button>
+					<span>
+						{pageNo} of {parseInt(totalPeople / 10) + 1}
+					</span>
+					<button
+						className="icon icon-sm"
+						onClick={() =>
+							setPageNo(
+								totalPeople / 10 > pageNo ? pageNo + 1 : pageNo
+							)
+						}
+						title={
+							totalPeople / 10 > pageNo
+								? "Go To next page"
+								: "No more going forward"
+						}
+						disabled={totalPeople / 10 <= pageNo}
+					>
+						<span className="material-icons">chevron_right</span>
+					</button>
+				</div>
+			</div>
 			<div className="home-data">
 				<table className="home-data-table">
 					<tbody>
@@ -122,7 +164,16 @@ const Home = () => {
 								</td>
 								<td>
 									{people.species.map((specie, index) => (
-										<div key={index}>{specie}</div>
+										<div
+											key={index}
+											style={{
+												display: "flex",
+												flexFlow: "column",
+											}}
+										>
+											{specie}
+											{getIcon(specie)}
+										</div>
 									))}
 								</td>
 								<td>
