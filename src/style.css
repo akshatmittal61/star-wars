@@ -286,9 +286,11 @@ input {
   border: none;
   outline: 3px solid transparent;
   border-radius: 4px;
-  background-color: var(--bgcolor-400);
+  background-color: var(--back-shadow);
+  color: var(--tcolor);
   margin: 0.5rem;
   padding: 0.5rem;
+  font-size: 1.1rem;
   transition: all var(--transition-time) ease-in-out; }
   input:hover {
     border: none;
@@ -297,7 +299,8 @@ input {
     border: none;
     outline: 3px solid rgba(0, 0, 0, 0.2); }
   input::placeholder {
-    font-size: 0.875rem; }
+    font-size: 0.875rem;
+    color: var(--tcolor-100); }
 
 button {
   background: inherit;
@@ -467,6 +470,8 @@ button {
         border: 1px solid var(--back-shadow-light); }
         .home-data table tr td:first-child {
           text-align: center; }
+    .home-data-null-spinner i {
+      animation: rotate 5s linear infinite; }
 
 @keyframes herotext {
   0% {

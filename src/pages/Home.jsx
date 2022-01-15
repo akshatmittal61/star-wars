@@ -10,10 +10,10 @@ const Home = () => {
 	const [pageNo, setPageNo] = useState(1);
 	const [isLoading, setIsLoading] = useState(true);
 	const [totalPeople, setTotalPeople] = useState(10);
+	const [searchStr, setSearchStr] = useState("");
 	const { axiosInstance } = useContext(GlobalContext);
 	useEffect(() => {
 		setFont(10);
-		axiosInstance(`people`).then((res) => setTotalPeople(res.data.count));
 		return () => {
 			console.log("Good");
 		};
@@ -25,7 +25,19 @@ const Home = () => {
 	};
 	useEffect(() => {
 		setIsLoading(true);
-		axiosInstance(`people/?page=${pageNo}`).then((res) => {
+		let callStr = "";
+		if (searchStr === "") {
+			callStr = `people/?page=${pageNo}`;
+			axiosInstance(`people`).then((res) =>
+				setTotalPeople(res.data.count)
+			);
+		} else {
+			callStr = `https://swapi.py4e.com/api/people/?search=${searchStr}&page=${pageNo}`;
+			axiosInstance(callStr).then((res) =>
+				setTotalPeople(res.data.count)
+			);
+		}
+		axiosInstance(callStr).then((res) => {
 			let newPeople = [...res.data.results];
 			res.data.results.map((a, index) => {
 				axios(a.homeworld).then((res) => {
@@ -77,7 +89,10 @@ const Home = () => {
 			});
 			setIsLoading(false);
 		});
-	}, [pageNo]);
+	}, [pageNo, searchStr]);
+	const handleChange = (e) => {
+		setSearchStr(e.target.value);
+	};
 	return (
 		<section className="home" style={{ backgroundImage: `url(${bg})` }}>
 			<Header />
@@ -87,7 +102,13 @@ const Home = () => {
 			</div>
 			<div className="home-controls">
 				<div className="home-controls-search">
-					<input />
+					<input
+						className="home-controls-search__input"
+						type="text"
+						placeholder="Search in Data"
+						value={searchStr}
+						onChange={handleChange}
+					/>
 				</div>
 				<div className="home-controls-page">
 					<button
