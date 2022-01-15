@@ -10,10 +10,32 @@ const Home = () => {
 	const [pageNo, setPageNo] = useState(1);
 	const [isLoading, setIsLoading] = useState(true);
 	const [totalPeople, setTotalPeople] = useState(10);
+	// const [totalSpecies, setTotalSpecies] = useState(10);
 	const [searchStr, setSearchStr] = useState("");
+	const [cards, setCards] = useState([]);
+	let cardNames = [];
 	const { axiosInstance } = useContext(GlobalContext);
+	const getSpecies = async (i) => {
+		let totSpecies = 10;
+		await axiosInstance(`species`).then((res) => {
+			totSpecies = res.data.count;
+			// setTotalSpecies(res.data.count);
+		});
+		await axiosInstance(`species/?page=${i}`).then((res) => {
+			res.data.results.forEach((sp) => {
+				cardNames = [
+					...cardNames,
+					{ name: sp.name, count: sp.people.length },
+				];
+			});
+		});
+		setCards(cardNames);
+		if (i <= totSpecies / 10) getSpecies(i + 1);
+	};
 	useEffect(() => {
 		setFont(10);
+		// axiosInstance(`species`).then((res) => setTotalSpecies(res.data.count));
+		getSpecies(1);
 		return () => {
 			console.log("Good");
 		};
@@ -41,7 +63,7 @@ const Home = () => {
 			let newPeople = [...res.data.results];
 			if (res.data.count === 0) setAllPeople([]);
 			else {
-				res.data.results.map((a, index) => {
+				res.data.results.forEach((a, index) => {
 					axios(a.homeworld).then((res) => {
 						newPeople[index].homeworld = res.data.name;
 						setTimeout(() => {
@@ -49,8 +71,8 @@ const Home = () => {
 						}, 2);
 					});
 				});
-				res.data.results.map((a, index) => {
-					a.films.map((b, id) => {
+				res.data.results.forEach((a, index) => {
+					a.films.forEach((b, id) => {
 						axios(b).then((res) => {
 							newPeople[index].films[id] = res.data.title;
 							setTimeout(() => {
@@ -59,8 +81,8 @@ const Home = () => {
 						});
 					});
 				});
-				res.data.results.map((a, index) => {
-					a.species.map((b, id) => {
+				res.data.results.forEach((a, index) => {
+					a.species.forEach((b, id) => {
 						axios(b).then((res) => {
 							newPeople[index].species[id] = res.data.name;
 							setTimeout(() => {
@@ -69,8 +91,8 @@ const Home = () => {
 						});
 					});
 				});
-				res.data.results.map((a, index) => {
-					a.vehicles.map((b, id) => {
+				res.data.results.forEach((a, index) => {
+					a.vehicles.forEach((b, id) => {
 						axios(b).then((res) => {
 							newPeople[index].vehicles[id] = res.data.name;
 							setTimeout(() => {
@@ -79,8 +101,8 @@ const Home = () => {
 						});
 					});
 				});
-				res.data.results.map((a, index) => {
-					a.starships.map((b, id) => {
+				res.data.results.forEach((a, index) => {
+					a.starships.forEach((b, id) => {
 						axios(b).then((res) => {
 							newPeople[index].starships[id] = res.data.name;
 							setTimeout(() => {
@@ -95,11 +117,12 @@ const Home = () => {
 	}, [pageNo, searchStr]);
 	const handleChange = (e) => {
 		setSearchStr(e.target.value);
+		setPageNo(1);
 	};
 	return (
 		<section className="home" style={{ backgroundImage: `url(${bg})` }}>
 			<Header />
-			<div className="home-hero">
+			<div className="home-hero" onClick={() => getSpecies()}>
 				<span style={{ fontSize: `${font}rem` }}>Star</span>
 				<span style={{ fontSize: `${font}rem` }}>Wars</span>
 			</div>
@@ -170,12 +193,9 @@ const Home = () => {
 						</tr>
 						{allPeople.length === 0 ? (
 							<tr>
-								<td
-									colSpan="14"
-									className="home-data-null"
-								>
+								<td colSpan="14" className="home-data-null">
 									<i className="fas fa-engine-warning"></i>
-                                    <div>No data Found</div>
+									<div>No data Found</div>
 								</td>
 							</tr>
 						) : (
@@ -242,6 +262,23 @@ const Home = () => {
 					</tbody>
 				</table>
 			</div>
+			{allPeople.length !== 0 && (
+				<div className="home-species">
+					<div className="home-species-head">All Species</div>
+					<div className="home-species-cards">
+						{cards.map((card, index) => (
+							<div className="home-card" key={index}>
+								<div className="home-card-name">
+									{card.name}
+								</div>
+								<div className="home-card-count">
+									{card.count}
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			)}
 		</section>
 	);
 };

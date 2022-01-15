@@ -478,6 +478,50 @@ button {
         line-height: 6rem; }
       .home-data-null-spinner i {
         animation: rotate 5s linear infinite; }
+  .home-species {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    margin: 2rem 0; }
+    .home-species-head {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      font-size: 2rem;
+      line-height: 2.5rem;
+      padding: 1rem 2rem; }
+    .home-species-cards {
+      width: 90%;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap; }
+  .home-card {
+    padding: 1.5rem 0.25rem;
+    outline: 2px solid var(--back-shadow);
+    width: 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
+    .home-card-name {
+      width: 80%;
+      height: 100%;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center; }
+    .home-card-count {
+      width: 20%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+    @media (max-width: 880px) {
+      .home-card {
+        width: 30%; } }
+    @media (max-width: 672px) {
+      .home-card {
+        width: 50%; } }
 
 @keyframes herotext {
   0% {
