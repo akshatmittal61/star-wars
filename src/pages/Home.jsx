@@ -24,6 +24,7 @@ const Home = () => {
 		else return <i className="fas fa-question"></i>;
 	};
 	useEffect(() => {
+		setIsLoading(true);
 		axiosInstance(`people/?page=${pageNo}`).then((res) => {
 			let newPeople = [...res.data.results];
 			res.data.results.map((a, index) => {
@@ -74,9 +75,7 @@ const Home = () => {
 					});
 				});
 			});
-			setTimeout(() => {
-				setIsLoading(false);
-			}, 1000);
+			setIsLoading(false);
 		});
 	}, [pageNo]);
 	return (
@@ -190,7 +189,12 @@ const Home = () => {
 						))}
 						{isLoading && (
 							<tr>
-								<td colSpan="13">I am Loading</td>
+								<td
+									colSpan="14"
+									className="home-data-null-spinner"
+								>
+									<i className="fas fa-spinner-third"></i>
+								</td>
 							</tr>
 						)}
 					</tbody>

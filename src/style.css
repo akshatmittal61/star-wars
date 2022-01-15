@@ -457,8 +457,10 @@ button {
       .home-data table tr th {
         padding: 0.25rem;
         background-color: var(--back-shadow);
-        border: 1px solid var(--back-shadow-light); }
+        border: 1px solid var(--back-shadow-light);
+        transition: all var(--transition-time) ease-in-out; }
       .home-data table tr td {
+        transition: all var(--transition-time) ease-in-out;
         width: fit-content;
         padding: 0.25rem;
         background-color: var(--back-shadow-light);
@@ -473,6 +475,18 @@ button {
   100% {
     font-size: 5rem;
     line-height: 5rem; } }
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg); }
+  25% {
+    transform: rotate(90deg); }
+  50% {
+    transform: rotate(180deg); }
+  75% {
+    transform: rotate(270deg); }
+  100% {
+    transform: rotate(360deg); } }
 
 ::-webkit-scrollbar {
   width: 8px;
