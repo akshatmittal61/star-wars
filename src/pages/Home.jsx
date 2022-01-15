@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
 import Header from "../components/Header";
 import GlobalContext from "../Context/GlobalContext";
 import bg from "../images/1.jpg";
@@ -10,7 +10,6 @@ const Home = () => {
 	const [pageNo, setPageNo] = useState(1);
 	const [isLoading, setIsLoading] = useState(true);
 	const [totalPeople, setTotalPeople] = useState(10);
-	// const [totalSpecies, setTotalSpecies] = useState(10);
 	const [searchStr, setSearchStr] = useState("");
 	const [cards, setCards] = useState([]);
 	let cardNames = [];
@@ -19,7 +18,6 @@ const Home = () => {
 		let totSpecies = 10;
 		await axiosInstance(`species`).then((res) => {
 			totSpecies = res.data.count;
-			// setTotalSpecies(res.data.count);
 		});
 		await axiosInstance(`species/?page=${i}`).then((res) => {
 			res.data.results.forEach((sp) => {
@@ -33,11 +31,10 @@ const Home = () => {
 		if (i <= totSpecies / 10) getSpecies(i + 1);
 	};
 	useEffect(() => {
-		setFont(10);
-		// axiosInstance(`species`).then((res) => setTotalSpecies(res.data.count));
+		setFont(8.5);
 		getSpecies(1);
 		return () => {
-			console.log("Good");
+			console.log(true);
 		};
 	}, []);
 	const getIcon = (str) => {
